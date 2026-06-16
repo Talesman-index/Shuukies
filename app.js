@@ -170,7 +170,7 @@ function renderProducts() {
             <div class="product-image-container">
                 <span class="product-tag">${product.tag}</span>
                 <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
-                ${!isAvailable ? `<div class="product-unavailable-overlay"><span>Pas disponible</span></div>` : ''}
+                ${!isAvailable ? `<div class="product-unavailable-overlay"><div class="unavailable-ribbon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Bientôt dispo !</div></div>` : ''}
             </div>
             <div class="product-info">
                 <div class="product-title-row">
