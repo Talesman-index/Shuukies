@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuukies Cotonou — Générateur de Flyers & Menu</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* -------------------------------------------------------------
+           CSS VARIABLES & SYSTEM
+           ------------------------------------------------------------- */
+        :root {
+            --color-bg: #fefaef;         /* Cream background */
+            --color-text: #3d280d;       /* Rich dark chocolate */
+            --color-primary: #ff5227;    /* Vibrant orange-red */
+            --color-secondary: #ffca50;  /* Warm golden yellow */
+            --color-success: #6fa162;    /* Soft mint green */
+            --color-white: #ffffff;
+            
+            --border-width: 3px;
+            --border-color: #3d280d;
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 8px;
+            
+            --box-shadow-flat: 6px 6px 0px 0px var(--border-color);
+            --box-shadow-hover: 9px 9px 0px 0px var(--border-color);
+            --box-shadow-active: 2px 2px 0px 0px var(--border-color);
+            
+            --font-heading: 'Fredoka', sans-serif;
+            --font-body: 'Nunito', sans-serif;
+        }
+
+        /* -------------------------------------------------------------
+           DASHBOARD & UTILITIES
+           ------------------------------------------------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f6ebd2;
+            color: var(--color-text);
+            font-family: var(--font-body);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Dashboard */
+        .dashboard-header {
+            background: var(--color-white);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--box-shadow-flat);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dashboard-title h1 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--color-text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-title p {
+            font-size: 1.1rem;
+            color: #6d5438;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--color-secondary);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            color: var(--color-text);
+            text-decoration: none;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            box-shadow: 4px 4px 0px 0px var(--border-color);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .back-link:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px var(--border-color);
+        }
+
+        /* Tips Panel */
+        .tips-panel {
+            background: #eef7eb;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #3f6834;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 4px 4px 0px 0px var(--border-color);
+        }
+
+        /* Control Panel per Flyer */
+        .flyers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .flyers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flyer-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .workspace-controls {
+            background: var(--color-white);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            box-shadow: var(--box-shadow-flat);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-label {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--color-text);
+        }
+
+        .theme-btn {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .theme-cream { background-color: #fefaef; }
+        .theme-chocolate { background-color: #3d280d; }
+        .theme-orange { background-color: #ff5227; }
+        .theme-mint { background-color: #d2edd5; }
+        .theme-yellow { background-color: #ffca50; }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            box-shadow: 4px 4px 0px 0px var(--border-color);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-action-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-action-primary:hover {
+            background: #ff6842;
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px 0px var(--border-color);
+        }
+
+        .btn-action-primary:active {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0px 0px var(--border-color);
+        }
+
+        /* -------------------------------------------------------------
+           FLYER CARDS (PREVIEW SCREEN & A4 STANDARD ASPECT RATIO)
+           ------------------------------------------------------------- */
+        .flyer-card {
+            width: 100%;
+            aspect-ratio: 1 / 1.414; /* Standard A4 proportion */
+            background-color: var(--color-bg);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--box-shadow-flat);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            user-select: text;
+        }
+
+        /* Editable helper indicator */
+        .flyer-card [contenteditable="true"] {
+            outline: none;
+            border: 1px dashed transparent;
+            border-radius: 4px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .flyer-card [contenteditable="true"]:hover {
+            background-color: rgba(255, 82, 39, 0.08);
+            border-color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .flyer-card [contenteditable="true"]:focus {
+            background-color: rgba(255, 82, 39, 0.12);
+            border-color: var(--color-primary);
+            border-style: solid;
+        }
+
+        /* Decor SVGs for flyers */
+        .decor-star {
+            position: absolute;
+            color: var(--color-secondary);
+            filter: drop-shadow(2px 2px 0px var(--border-color));
+        }
+
+        /* -------------------------------------------------------------
+           FLYER 1: PROMOTIONAL POSTER DESIGN (Cream Rétro / Pop)
+           ------------------------------------------------------------- */
+        .flyer-poster {
+            --poster-accent: var(--color-primary);
+            --poster-text: var(--color-text);
+            --poster-bg: var(--color-bg);
+        }
+
+        .flyer-poster.theme-chocolate-active {
+            --poster-accent: var(--color-secondary);
+            --poster-text: #fefaef;
+            --poster-bg: #3d280d;
+        }
+
+        .flyer-poster.theme-orange-active {
+            --poster-accent: var(--color-secondary);
+            --poster-text: var(--color-white);
+            --poster-bg: var(--color-primary);
+        }
+
+        .flyer-poster.theme-mint-active {
+            --poster-accent: var(--color-primary);
+            --poster-text: var(--color-text);
+            --poster-bg: #d2edd5;
+        }
+
+        .flyer-poster.theme-yellow-active {
+            --poster-accent: var(--color-primary);
+            --poster-text: var(--color-text);
+            --poster-bg: var(--color-secondary);
+        }
+
+        .flyer-poster {
+            background-color: var(--poster-bg);
+            color: var(--poster-text);
+        }
+
+        .flyer-poster .logo-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .flyer-poster .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--poster-text);
+            border: var(--border-width) solid var(--border-color);
+            padding: 4px 18px;
+            border-radius: var(--border-radius-sm);
+            background-color: var(--poster-accent);
+            box-shadow: 3px 3px 0px var(--border-color);
+            display: inline-block;
+        }
+
+        .flyer-poster .headline-section {
+            text-align: center;
+            margin-bottom: 20px;
+            z-index: 2;
+        }
+
+        .flyer-poster .headline-main {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.15));
+        }
+
+        .flyer-poster .headline-sub {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--poster-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Image arch frame (Rosa & Creme style) */
+        .flyer-poster .image-arch-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flyer-poster .image-arch {
+            width: 260px;
+            height: 280px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 130px 130px 16px 16px;
+            background-image: url('images/hero.jpeg');
+            background-size: cover;
+            background-position: center;
+            box-shadow: var(--box-shadow-flat);
+            position: relative;
+        }
+
+        .flyer-poster .badge-promo {
+            position: absolute;
+            bottom: -10px;
+            right: -15px;
+            background: var(--color-secondary);
+            color: var(--color-text);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            padding: 8px 12px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            transform: rotate(6deg);
+            box-shadow: 3px 3px 0px var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Bottom offer text */
+        .flyer-poster .offer-description {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 90%;
+            margin: 0 auto 20px auto;
+        }
+
+        /* Call to Action WhatsApp */
+        .flyer-poster .cta-box {
+            border: var(--border-width) dashed var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        
+        .flyer-poster.theme-chocolate-active .cta-box {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .flyer-poster .cta-text {
+            flex-grow: 1;
+        }
+
+        .flyer-poster .cta-heading {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .flyer-poster .cta-number {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--poster-accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Fake CSS QR Code */
+        .flyer-poster .qr-code {
+            width: 70px;
+            height: 70px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background-color: white;
+            padding: 4px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .flyer-poster .qr-pixel {
+            width: 13px;
+            height: 13px;
+            background-color: var(--color-text);
+        }
+
+        .flyer-poster .qr-corners {
+            position: absolute;
+            top: 4px; left: 4px;
+            width: 18px; height: 18px;
+            border: 3px solid var(--color-text);
+            background: white;
+        }
+
+        .flyer-poster .qr-corner-top-right {
+            position: absolute;
+            top: 4px; right: 4px;
+            width: 18px; height: 18px;
+            border: 3px solid var(--color-text);
+            background: white;
+        }
+
+        .flyer-poster .qr-corner-bottom-left {
+            position: absolute;
+            bottom: 4px; left: 4px;
+            width: 18px; height: 18px;
+            border: 3px solid var(--color-text);
+            background: white;
+        }
+
+        /* -------------------------------------------------------------
+           FLYER 2: MENU DESIGN (Chic Chocolate Theme)
+           ------------------------------------------------------------- */
+        .flyer-menu {
+            --menu-bg: #3d280d;           /* Deep dark chocolate */
+            --menu-text: #fefaef;         /* Light cream */
+            --menu-accent: #ffca50;       /* Golden yellow */
+            --menu-border: #fefaef;
+        }
+
+        .flyer-menu.theme-cream-active {
+            --menu-bg: #fefaef;
+            --menu-text: #3d280d;
+            --menu-accent: #ff5227;
+            --menu-border: #3d280d;
+        }
+
+        .flyer-menu.theme-orange-active {
+            --menu-bg: #ff5227;
+            --menu-text: #ffffff;
+            --menu-accent: #ffca50;
+            --menu-border: #ffffff;
+        }
+
+        .flyer-menu.theme-mint-active {
+            --menu-bg: #d2edd5;
+            --menu-text: #3d280d;
+            --menu-accent: #ff5227;
+            --menu-border: #3d280d;
+        }
+
+        .flyer-menu.theme-yellow-active {
+            --menu-bg: #ffca50;
+            --menu-text: #3d280d;
+            --menu-accent: #ff5227;
+            --menu-border: #3d280d;
+        }
+
+        .flyer-menu {
+            background-color: var(--menu-bg);
+            color: var(--menu-text);
+            border-color: var(--menu-border);
+        }
+
+        .flyer-menu .menu-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .flyer-menu .menu-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--menu-accent);
+            margin-bottom: 4px;
+        }
+
+        .flyer-menu .menu-subtitle {
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.9;
+        }
+
+        .flyer-menu .menu-divider {
+            width: 80px;
+            height: 4px;
+            background-color: var(--menu-accent);
+            margin: 12px auto;
+            border-radius: var(--border-radius-sm);
+        }
+
+        /* Dotted Leader Menu list */
+        .flyer-menu .menu-section {
+            margin-bottom: 20px;
+        }
+
+        .flyer-menu .menu-section-title {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--menu-accent);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 4px;
+        }
+        
+        .flyer-menu.theme-cream-active .menu-section-title,
+        .flyer-menu.theme-mint-active .menu-section-title,
+        .flyer-menu.theme-yellow-active .menu-section-title {
+            border-bottom-color: rgba(61, 40, 13, 0.15);
+        }
+
+        .flyer-menu .menu-item {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .flyer-menu .item-name {
+            flex-shrink: 0;
+        }
+
+        .flyer-menu .item-dots {
+            flex-grow: 1;
+            border-bottom: 3px dotted var(--menu-text);
+            margin: 0 10px;
+            opacity: 0.5;
+            position: relative;
+            top: -4px;
+        }
+
+        .flyer-menu .item-price {
+            flex-shrink: 0;
+            color: var(--menu-accent);
+        }
+
+        .flyer-menu .item-desc {
+            font-size: 0.85rem;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-top: -6px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .flyer-menu .badge-status {
+            font-size: 0.75rem;
+            background: #ff5227;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Combos / Extra Info box */
+        .flyer-menu .info-badge-box {
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 2px solid var(--menu-accent);
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .flyer-menu.theme-cream-active .info-badge-box,
+        .flyer-menu.theme-mint-active .info-badge-box,
+        .flyer-menu.theme-yellow-active .info-badge-box {
+            background-color: rgba(0, 0, 0, 0.04);
+            border-color: var(--menu-border);
+        }
+
+        .flyer-menu .info-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .flyer-menu .info-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .flyer-menu .info-icon {
+            color: var(--menu-accent);
+            flex-shrink: 0;
+        }
+
+        /* Bottom layout & cookie crop image */
+        .flyer-menu .menu-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
+        }
+
+        .flyer-menu .menu-footer-text {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            max-width: 60%;
+        }
+
+        .flyer-menu .menu-footer-heading {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: var(--menu-accent);
+            margin-bottom: 4px;
+        }
+
+        .flyer-menu .menu-cookie-crop {
+            width: 140px;
+            height: 80px;
+            border: var(--border-width) solid var(--menu-border);
+            border-radius: 120px 120px 0 0;
+            background-image: url('images/set.jpeg');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 3px 3px 0px var(--menu-border);
+        }
+
+        /* -------------------------------------------------------------
+           PRINT STYLE OVERRIDES
+           ------------------------------------------------------------- */
+        @media print {
+            body {
+                background: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .dashboard-header, 
+            .tips-panel, 
+            .workspace-controls, 
+            .dashboard-footer, 
+            h2 {
+                display: none !important;
+            }
+
+            .flyers-grid {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .flyer-workspace {
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
+
+            .flyer-card {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 210mm !important; /* Perfect A4 width */
+                height: 297mm !important; /* Perfect A4 height */
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 20mm !important; /* Proper margin for printing */
+                box-sizing: border-box !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                z-index: 9999 !important;
+            }
+
+            /* Hide the flyer that isn't selected for printing */
+            .flyer-card.no-print {
+                display: none !important;
+            }
+
+            /* Enable contenteditable outline hides on print */
+            .flyer-card [contenteditable="true"] {
+                border: none !important;
+                background-color: transparent !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <div class="dashboard-title">
+                <h1>
+                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--color-primary);"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 5a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm-4 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm6 1a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm-5 5a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm5-1a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"/></svg>
+                    Flyers & Menu de Shuukies
+                </h1>
+                <p>Personnalisez vos visuels en direct et imprimez-les en A4 ou enregistrez-les en PDF.</p>
+            </div>
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Retour au Site
+            </a>
+        </header>
+
+        <!-- Tooltip tips -->
+        <div class="tips-panel">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--color-success);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>💡 Astuce : Cliquez sur n'importe quel texte directement dans les flyers ci-dessous pour le modifier avant de l'exporter !</span>
+        </div>
+
+        <!-- Flyers Grid Workspace -->
+        <div class="flyers-grid">
+            
+            <!-- WORKSPACE 1: PROMOTIONAL POSTER -->
+            <div class="flyer-workspace">
+                <div class="workspace-controls">
+                    <h2>1. Affiche de Commande</h2>
+                    <p style="font-size: 0.95rem; color: #6d5438; margin-top:-5px;">Parfait pour les réseaux sociaux (Instagram, WhatsApp) ou pour imprimer en boutique.</p>
+                    
+                    <div class="control-group">
+                        <span class="control-label">Arrière-plan :</span>
+                        <button class="theme-btn theme-cream" onclick="changeTheme('poster', 'cream')" title="Crème Rétro"></button>
+                        <button class="theme-btn theme-chocolate" onclick="changeTheme('poster', 'chocolate')" title="Chocolat Chaud"></button>
+                        <button class="theme-btn theme-orange" onclick="changeTheme('poster', 'orange')" title="Orange Électrique"></button>
+                        <button class="theme-btn theme-mint" onclick="changeTheme('poster', 'mint')" title="Menthe Fraîche"></button>
+                        <button class="theme-btn theme-yellow" onclick="changeTheme('poster', 'yellow')" title="Jaune Doré"></button>
+                    </div>
+
+                    <button class="btn-action btn-action-primary" onclick="printFlyer('poster')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Imprimer / Enregistrer en PDF
+                    </button>
+                </div>
+
+                <!-- FLYER 1: THE VISUAL POSTER -->
+                <div class="flyer-card flyer-poster" id="flyer-poster-card">
+                    <!-- Retro stars decoration -->
+                    <svg class="decor-star" style="top: 30px; left: 40px; width: 28px; height: 28px;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="decor-star" style="top: 100px; right: 50px; width: 20px; height: 20px;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="decor-star" style="bottom: 120px; left: 30px; width: 24px; height: 24px;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+
+                    <!-- Top Branding Logo -->
+                    <div class="logo-section">
+                        <div class="logo-text" contenteditable="true">SHUUKIES COTONOU</div>
+                    </div>
+
+                    <!-- Hero Slogans -->
+                    <div class="headline-section">
+                        <div class="headline-main" contenteditable="true">LES MEILLEURS COOKIES DE COTONOU</div>
+                        <div class="headline-sub" contenteditable="true">Craquants dehors, ultra fondants dedans !</div>
+                    </div>
+
+                    <!-- Central Arch Image -->
+                    <div class="image-arch-container">
+                        <div class="image-arch">
+                            <div class="badge-promo" contenteditable="true">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                Dès 3 500 FCFA
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description of offer -->
+                    <div class="offer-description" contenteditable="true">
+                        Nos cookies sont préparés avec amour, de manière 100% artisanale, et cuits le jour même de votre livraison. Vendus en box de 5 cookies généreux pour un plaisir inégalé !
+                    </div>
+
+                    <!-- Call To Action Panel -->
+                    <div class="cta-box">
+                        <div class="cta-text">
+                            <div class="cta-heading" contenteditable="true">COMMANDER PAR WHATSAPP</div>
+                            <div class="cta-number" contenteditable="true">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" style="color:#25d366; fill:rgba(37, 211, 102, 0.15);"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                +229 01 61 67 71 33
+                            </div>
+                        </div>
+                        
+                        <!-- Pseudo QR Code -->
+                        <div class="qr-code" title="QR Code vers WhatsApp">
+                            <div class="qr-corners"></div>
+                            <div class="qr-corner-top-right"></div>
+                            <div class="qr-corner-bottom-left"></div>
+                            <!-- Mock QR matrix -->
+                            <div class="qr-pixel" style="margin-left: 20px; margin-top: 20px;"></div>
+                            <div class="qr-pixel" style="margin-left: 5px;"></div>
+                            <div class="qr-pixel" style="margin-left: 15px; margin-top: 5px;"></div>
+                            <div class="qr-pixel" style="margin-left: 30px;"></div>
+                            <div class="qr-pixel" style="margin-left: 10px; margin-top: 2px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- WORKSPACE 2: THE DETAILED MENU -->
+            <div class="flyer-workspace">
+                <div class="workspace-controls">
+                    <h2>2. Menu & Liste des Prix</h2>
+                    <p style="font-size: 0.95rem; color: #6d5438; margin-top:-5px;">Affiche tarifaire détaillée reprenant l'ensemble de la carte avec les leaders en pointillés.</p>
+                    
+                    <div class="control-group">
+                        <span class="control-label">Arrière-plan :</span>
+                        <button class="theme-btn theme-chocolate" onclick="changeTheme('menu', 'chocolate')" title="Chocolat Chaud"></button>
+                        <button class="theme-btn theme-cream" onclick="changeTheme('menu', 'cream')" title="Crème Rétro"></button>
+                        <button class="theme-btn theme-orange" onclick="changeTheme('menu', 'orange')" title="Orange Électrique"></button>
+                        <button class="theme-btn theme-mint" onclick="changeTheme('menu', 'mint')" title="Menthe Fraîche"></button>
+                        <button class="theme-btn theme-yellow" onclick="changeTheme('menu', 'yellow')" title="Jaune Doré"></button>
+                    </div>
+
+                    <button class="btn-action btn-action-primary" onclick="printFlyer('menu')">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Imprimer / Enregistrer en PDF
+                    </button>
+                </div>
+
+                <!-- FLYER 2: THE DETAILED MENU -->
+                <div class="flyer-card flyer-menu" id="flyer-menu-card">
+                    
+                    <!-- Menu Header -->
+                    <div class="menu-header">
+                        <div class="menu-title" contenteditable="true">LE MENU SHUUKIES</div>
+                        <div class="menu-subtitle" contenteditable="true">Biscuits & Cookies Extraordinaires</div>
+                        <div class="menu-divider"></div>
+                    </div>
+
+                    <!-- Products Section -->
+                    <div class="menu-section">
+                        <div class="menu-section-title" contenteditable="true">BOX DE 5 COOKIES</div>
+                        
+                        <div class="menu-item-wrapper">
+                            <div class="menu-item">
+                                <span class="item-name" contenteditable="true">Shuukies Chocolat Chunks</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price" contenteditable="true">3 500 FCFA</span>
+                            </div>
+                            <div class="item-desc" contenteditable="true">Beurre noisette et pépites géantes de chocolat noir intense.</div>
+                        </div>
+
+                        <div class="menu-item-wrapper">
+                            <div class="menu-item">
+                                <span class="item-name" contenteditable="true">Shuukies Citron Acidulé</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price" contenteditable="true">3 500 FCFA</span>
+                            </div>
+                            <div class="item-desc" contenteditable="true">Zestes de citron bio, cœur fondant lemon curd et glaçage acidulé.</div>
+                        </div>
+
+                        <div class="menu-item-wrapper">
+                            <div class="menu-item">
+                                <span class="item-name" contenteditable="true">Shuukies Double Chocolat</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price" contenteditable="true">5 500 FCFA</span>
+                            </div>
+                            <div class="item-desc" contenteditable="true">Pâte de cacao noir avec chunks fondants au chocolat blanc et lait.</div>
+                        </div>
+
+                        <div class="menu-item-wrapper">
+                            <div class="menu-item">
+                                <span class="item-name" contenteditable="true">Shuukies Cérélac</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price" contenteditable="true">5 500 FCFA</span>
+                            </div>
+                            <div class="item-desc" contenteditable="true">Le goût de l'enfance : poudre Cérélac Nestlé et chunks de chocolat blanc.</div>
+                        </div>
+
+                        <div class="menu-item-wrapper">
+                            <div class="menu-item">
+                                <span class="item-name" contenteditable="true">Shuukies Tiramisu</span>
+                                <span class="item-dots"></span>
+                                <span class="item-price" contenteditable="true">6 500 FCFA</span>
+                                <span class="badge-status">Bientôt</span>
+                            </div>
+                            <div class="item-desc" contenteditable="true">Ganache mascarpone, café espresso et saupoudrage cacao amer.</div>
+                        </div>
+                    </div>
+
+                    <!-- Infos Box (Delivery, Payment) -->
+                    <div class="info-badge-box">
+                        <div class="info-line">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                            </span>
+                            <span contenteditable="true"><strong>Livraison partout à Cotonou</strong> : 1 000 FCFA • Offerte dès 15 000 FCFA.</span>
+                        </div>
+                        <div class="info-line">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </span>
+                            <span contenteditable="true"><strong>Commandes 24h à l'avance</strong> : Préparation artisanale à la demande.</span>
+                        </div>
+                        <div class="info-line">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                            </span>
+                            <span contenteditable="true"><strong>Paiement simple</strong> : Espèces à la livraison, MTN MoMo ou Moov Flooz.</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer Section & Cookie Crop -->
+                    <div class="menu-footer">
+                        <div class="menu-footer-text">
+                            <div class="menu-footer-heading" contenteditable="true">SHUUKIES COTONOU</div>
+                            <div contenteditable="true" style="opacity:0.8;">Commandez sur <strong>shuukies.com</strong> ou par WhatsApp au <strong>01 61 67 71 33</strong></div>
+                        </div>
+                        
+                        <!-- Visual Cookie Crop at the bottom right -->
+                        <div class="menu-cookie-crop" title="Cookie Shuukies"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // -------------------------------------------------------------
+        // DYNAMIC INTERACTIVE BEHAVIORS
+        // -------------------------------------------------------------
+        
+        // Change theme palette for a specific card
+        function changeTheme(flyerType, themeName) {
+            const card = document.getElementById(`flyer-${flyerType}-card`);
+            if (!card) return;
+            
+            // Remove previous theme classes
+            card.classList.remove('theme-cream-active', 'theme-chocolate-active', 'theme-orange-active', 'theme-mint-active', 'theme-yellow-active');
+            
+            // Add new theme class
+            card.classList.add(`theme-${themeName}-active`);
+        }
+
+        // Print function
+        function printFlyer(flyerToPrint) {
+            const posterCard = document.getElementById('flyer-poster-card');
+            const menuCard = document.getElementById('flyer-menu-card');
+            
+            // Set print-only flags
+            if (flyerToPrint === 'poster') {
+                posterCard.classList.remove('no-print');
+                menuCard.classList.add('no-print');
+            } else if (flyerToPrint === 'menu') {
+                posterCard.classList.add('no-print');
+                menuCard.classList.remove('no-print');
+            }
+            
+            // Launch print
+            window.print();
+        }
+    </script>
+</body>
+</html>
