@@ -10,7 +10,8 @@ const PRODUCTS = [
         description: "Pâte dorée au beurre noisette, truffée de grosses pépites de chocolat noir de caractère. Le classique irrésistible.",
         price: 3500,
         image: "images/chocolat chunks.jpeg",
-        tag: "Box de 5"
+        tag: "Box de 5",
+        available: true
     },
     {
         id: "citron",
@@ -18,7 +19,8 @@ const PRODUCTS = [
         description: "Pâte parfumée aux zestes de citron bio de Sicile, avec un cœur fondant au confit de citron et glaçage acidulé.",
         price: 3500,
         image: "images/citron.jpeg",
-        tag: "Box de 5"
+        tag: "Box de 5",
+        available: true
     },
     {
         id: "double-chocolat",
@@ -26,7 +28,8 @@ const PRODUCTS = [
         description: "Intense pâte au cacao noir, fourrée de chunks de chocolat au lait fondant et de chocolat blanc crémeux.",
         price: 5500,
         image: "images/double chocolat.jpeg",
-        tag: "Box de 5"
+        tag: "Box de 5",
+        available: true
     },
     {
         id: "cerelac",
@@ -34,7 +37,8 @@ const PRODUCTS = [
         description: "Le cookie réconfortant à base de poudre de céréales Cérélac Nestlé, garni de chunks de chocolat blanc. Un retour en enfance !",
         price: 5500,
         image: "images/set.jpeg",
-        tag: "Box de 5"
+        tag: "Box de 5",
+        available: true
     },
     {
         id: "tiramisu",
@@ -42,7 +46,8 @@ const PRODUCTS = [
         description: "Inspiration italienne : biscuits infusés au café expresso, cœur de ganache au mascarpone et saupoudrage de cacao amer.",
         price: 6500,
         image: "images/tiramisu.jpeg",
-        tag: "Box de 5"
+        tag: "Box de 5",
+        available: false
     }
 ];
 
@@ -158,10 +163,14 @@ function renderProducts() {
         card.setAttribute("role", "article");
         card.setAttribute("aria-label", product.name);
         
+        const isAvailable = product.available !== false;
+        card.classList.toggle('product-unavailable', !isAvailable);
+        
         card.innerHTML = `
             <div class="product-image-container">
                 <span class="product-tag">${product.tag}</span>
                 <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                ${!isAvailable ? `<div class="product-unavailable-overlay"><span>Pas disponible</span></div>` : ''}
             </div>
             <div class="product-info">
                 <div class="product-title-row">
@@ -170,8 +179,8 @@ function renderProducts() {
                 </div>
                 <p class="product-desc">${product.description}</p>
                 <div class="product-actions">
-                    <button class="btn btn-primary btn-block add-to-cart-btn" data-id="${product.id}">
-                        Ajouter au panier
+                    <button class="btn btn-primary btn-block add-to-cart-btn" data-id="${product.id}" ${!isAvailable ? 'disabled' : ''}>
+                        ${isAvailable ? 'Ajouter au panier' : 'Pas disponible'}
                     </button>
                 </div>
             </div>

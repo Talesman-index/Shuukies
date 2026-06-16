@@ -750,6 +750,48 @@ img {
     gap: 10px;
 }
 
+/* Unavailable product state */
+.product-unavailable {
+    opacity: 0.75;
+    cursor: default;
+}
+
+.product-unavailable:hover {
+    transform: none;
+    box-shadow: var(--box-shadow-flat);
+}
+
+.product-unavailable-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(61, 40, 13, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.product-unavailable-overlay span {
+    background: var(--color-text);
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 8px 20px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.add-to-cart-btn:disabled {
+    background-color: #c0b3a3 !important;
+    border-color: #a09080 !important;
+    box-shadow: 2px 2px 0 #a09080 !important;
+    color: #fff !important;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
 /* -------------------------------------------------------------
    Reviews Section
    ------------------------------------------------------------- */
