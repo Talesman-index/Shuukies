@@ -33,7 +33,7 @@ const PRODUCTS = [
         name: "Shuukies Cérélac",
         description: "Le cookie réconfortant à base de poudre de céréales Cérélac Nestlé, garni de chunks de chocolat blanc. Un retour en enfance !",
         price: 5500,
-        image: "images/cerelac.jpeg",
+        image: "images/set.jpeg",
         tag: "Box de 5"
     },
     {
