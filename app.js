@@ -7,7 +7,7 @@ const PRODUCTS = [
     {
         id: "chocolat-chunks",
         name: "Shuukies Chocolat Chunks",
-        description: "Pâte dorée au beurre noisette, truffée de grosses pépites de chocolat noir de caractère. Le classique irrésistible.",
+        description: "Une délicieuse pâte à cookies truffée de grosses pépites de chocolat noir : l’incontournable classique.",
         price: 3500,
         image: "images/chocolat chunks.jpeg",
         tag: "Box de 5",
@@ -16,7 +16,7 @@ const PRODUCTS = [
     {
         id: "citron",
         name: "Shuukies au Citron",
-        description: "Pâte parfumée aux zestes de citron bio de Sicile, avec un cœur fondant au confit de citron et glaçage acidulé.",
+        description: "Une pâte à cookies parfumée au zeste de citron et un cœur fondant à la crème de citron, parfait pour les amoureux d’acidité et de douceur.",
         price: 3500,
         image: "images/citron.jpeg",
         tag: "Box de 5",
@@ -25,7 +25,7 @@ const PRODUCTS = [
     {
         id: "double-chocolat",
         name: "Shuukies Double Chocolat",
-        description: "Intense pâte au cacao noir, fourrée de chunks de chocolat au lait fondant et de chocolat blanc crémeux.",
+        description: "Tout en chocolat, le déguster vous rappelle le classique brownie : il a de quoi ravir les amoureux de chocolat pur.",
         price: 5500,
         image: "images/double chocolat.jpeg",
         tag: "Box de 5",
@@ -43,7 +43,7 @@ const PRODUCTS = [
     {
         id: "tiramisu",
         name: "Shuukies Tiramisu",
-        description: "Inspiration italienne : biscuits infusés au café expresso, cœur de ganache au mascarpone et saupoudrage de cacao amer.",
+        description: "Un cookie inspiré du célèbre dessert italien relevé au café avec son cœur crème mascarpone, le tout saupoudré de poudre de cacao.",
         price: 6500,
         image: "images/tiramisu.jpeg",
         tag: "Box de 5",
