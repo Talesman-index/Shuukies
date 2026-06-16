@@ -48,6 +48,7 @@ html {
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
+    overflow-x: hidden;
 }
 
 body {
@@ -1595,6 +1596,21 @@ img {
     .form-group-row {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+
+    /* Reviews section — stack vertically on mobile */
+    .reviews-slider-container {
+        overflow-x: visible;
+    }
+
+    .reviews-track {
+        flex-direction: column;
+        min-width: unset;
+        gap: 20px;
+    }
+
+    .review-card {
+        width: 100%;
     }
 }
 
