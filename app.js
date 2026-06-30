@@ -41,6 +41,15 @@ const PRODUCTS = [
         available: true
     },
     {
+        id: "boxe-decouverte",
+        name: "Shuukies Box Découverte",
+        description: "Un assortiment savoureux composé des 4 saveurs vedettes du mois pour varier les plaisirs.",
+        price: 4000,
+        image: "images/box-decouverte.jpeg",
+        tag: "Box de 4",
+        available: true
+    },
+    {
         id: "tiramisu",
         name: "Shuukies Tiramisu",
         description: "Un cookie inspiré du célèbre dessert italien relevé au café avec son cœur crème mascarpone, le tout saupoudré de poudre de cacao.",
@@ -158,6 +167,8 @@ function renderProducts() {
     productsGrid.innerHTML = "";
     
     PRODUCTS.forEach(product => {
+        if (product.id === "boxe-decouverte") return;
+
         const card = document.createElement("div");
         card.className = "product-card";
         card.setAttribute("role", "article");
@@ -407,6 +418,18 @@ function setupEventListeners() {
         productsGrid.addEventListener("click", (e) => {
             if (e.target.classList.contains("add-to-cart-btn")) {
                 const id = e.target.getAttribute("data-id");
+                addToCart(id);
+            }
+        });
+    }
+
+    // Add to cart from discovery section
+    const discoverySection = document.getElementById("decouverte");
+    if (discoverySection) {
+        discoverySection.addEventListener("click", (e) => {
+            const btn = e.target.closest(".add-to-cart-btn");
+            if (btn) {
+                const id = btn.getAttribute("data-id");
                 addToCart(id);
             }
         });
