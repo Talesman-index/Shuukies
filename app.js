@@ -48,15 +48,6 @@ const PRODUCTS = [
         image: "images/box-decouverte.jpeg",
         tag: "Box de 4",
         available: true
-    },
-    {
-        id: "tiramisu",
-        name: "Shuukies Tiramisu",
-        description: "Un cookie inspiré du célèbre dessert italien relevé au café avec son cœur crème mascarpone, le tout saupoudré de poudre de cacao.",
-        price: 6500,
-        image: "images/tiramisu.jpeg",
-        tag: "Box de 5",
-        available: false
     }
 ];
 
