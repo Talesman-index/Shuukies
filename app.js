@@ -48,6 +48,51 @@ const PRODUCTS = [
         image: "images/box-decouverte.jpeg",
         tag: "Box de 4",
         available: true
+    },
+    {
+        id: "mango-addict",
+        name: "Shuukies Mango Addict",
+        description: "L'intensité de la mangue à chaque bouchée : une pâte moelleuse, des éclats de mangue séchée, des morceaux de mangue confites et un coulis de mangue.",
+        price: 4000,
+        image: "images/mango.jpeg",
+        tag: "Box de 5",
+        available: true
+    },
+    {
+        id: "tropical-bliss",
+        name: "Shuukies Tropical Bliss",
+        description: "Le soleil dans un cookie : de tendres morceaux d’ananas qui apportent une explosion de fraîcheur et de douceur.",
+        price: 3500,
+        image: "images/Tropical.jpeg",
+        tag: "Box de 5",
+        available: true
+    },
+    {
+        id: "bloom",
+        name: "Shuukies Bloom",
+        description: "Un mariage raffiné de chocolat blanc et d’une touche florale de bissap, pour une douceur aussi élégante qu’originale.",
+        price: 4000,
+        image: "images/Bloom.jpeg",
+        tag: "Box de 5",
+        available: true
+    },
+    {
+        id: "coconut-dream",
+        name: "Shuukies Coconut Dream",
+        description: "Une escapade au soleil et sous les cocotiers avec une pâte fondante, de la noix de coco et de généreux morceaux de chocolat blanc.",
+        price: 4500,
+        image: "images/coconut.jpeg",
+        tag: "Box de 5",
+        available: true
+    },
+    {
+        id: "summer-box",
+        name: "Shuukies Summer Box",
+        description: "Le meilleur des vacances réuni dans une seule box : Mango Addict, Coconut Dream, Bloom et Tropical Bliss. Quatre saveurs, une expérience gourmande à partager... ou à savourer seul.",
+        price: 4000,
+        image: "images/Summer.jpeg",
+        tag: "Box de 4",
+        available: true
     }
 ];
 
@@ -243,7 +288,7 @@ function renderCart() {
             <div class="cart-item-info">
                 <div>
                     <h4>${item.product.name}</h4>
-                    <span style="font-size: 0.8rem; color: #7b624b; font-weight: 600; display: block; margin-bottom: 2px;">Box de 5 cookies</span>
+                    <span style="font-size: 0.8rem; color: #7b624b; font-weight: 600; display: block; margin-bottom: 2px;">${item.product.tag || 'Box de 5'}</span>
                     <span class="cart-item-price">${formatPrice(item.product.price)}</span>
                 </div>
                 <div class="cart-item-qty-row">
@@ -479,7 +524,7 @@ function setupEventListeners() {
         cart.forEach((item, index) => {
             const itemPriceSum = item.product.price * item.quantity;
             subtotal += itemPriceSum;
-            itemsListText += `${index + 1}. ${item.product.name} (Box de 5) x ${item.quantity} : ${formatPrice(itemPriceSum)}\n`;
+            itemsListText += `${index + 1}. ${item.product.name} (${item.product.tag || 'Box de 5'}) x ${item.quantity} : ${formatPrice(itemPriceSum)}\n`;
         });
         
         let shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
@@ -558,7 +603,7 @@ function renderCheckoutSummary() {
         itemEl.innerHTML = `
             <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-weight: 700; color: var(--color-text);">${item.product.name}</span> 
-                <span style="font-size: 0.75rem; background: var(--color-secondary); color: var(--color-text); border: 2px solid var(--border-color); padding: 1px 6px; border-radius: 999px; font-weight: 700; box-shadow: 1px 1px 0 var(--border-color); white-space: nowrap;">Box de 5</span>
+                <span style="font-size: 0.75rem; background: var(--color-secondary); color: var(--color-text); border: 2px solid var(--border-color); padding: 1px 6px; border-radius: 999px; font-weight: 700; box-shadow: 1px 1px 0 var(--border-color); white-space: nowrap;">${item.product.tag || 'Box de 5'}</span>
             </div>
             <div style="flex-shrink:0;">
                 <span style="color: #666; font-size: 0.85rem;">x ${item.quantity}</span>
