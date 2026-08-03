@@ -2,60 +2,15 @@
 // SHUUKIES APPLICATION LOGIC (Cotonou, Bénin - WhatsApp E-Commerce)
 // -------------------------------------------------------------
 
-// Products Database (Box of 5 packaging, prices in FCFA)
+// Products Database (Box of 4 packaging, prices in FCFA)
 const PRODUCTS = [
-    {
-        id: "chocolat-chunks",
-        name: "Shuukies Chocolat Chunks",
-        description: "Une délicieuse pâte à cookies truffée de grosses pépites de chocolat noir : l’incontournable classique.",
-        price: 3500,
-        image: "images/chocolat chunks.jpeg",
-        tag: "Box de 5",
-        available: true
-    },
-    {
-        id: "citron",
-        name: "Shuukies au Citron",
-        description: "Une pâte à cookies parfumée au zeste de citron et un cœur fondant à la crème de citron, parfait pour les amoureux d’acidité et de douceur.",
-        price: 3500,
-        image: "images/citron.jpeg",
-        tag: "Box de 5",
-        available: true
-    },
-    {
-        id: "double-chocolat",
-        name: "Shuukies Double Chocolat",
-        description: "Tout en chocolat, le déguster vous rappelle le classique brownie : il a de quoi ravir les amoureux de chocolat pur.",
-        price: 5500,
-        image: "images/double chocolat.jpeg",
-        tag: "Box de 5",
-        available: true
-    },
-    {
-        id: "cerelac",
-        name: "Shuukies Cérélac",
-        description: "Le cookie réconfortant à base de poudre de céréales Cérélac Nestlé, garni de chunks de chocolat blanc. Un retour en enfance !",
-        price: 5500,
-        image: "images/set.jpeg",
-        tag: "Box de 5",
-        available: true
-    },
-    {
-        id: "boxe-decouverte",
-        name: "Shuukies Box Découverte",
-        description: "Un assortiment savoureux composé des 4 saveurs vedettes du mois pour varier les plaisirs.",
-        price: 4000,
-        image: "images/box-decouverte.jpeg",
-        tag: "Box de 4",
-        available: true
-    },
     {
         id: "mango-addict",
         name: "Shuukies Mango Addict",
         description: "L'intensité de la mangue à chaque bouchée : une pâte moelleuse, des éclats de mangue séchée, des morceaux de mangue confites et un coulis de mangue.",
         price: 4000,
         image: "images/mango.jpeg",
-        tag: "Box de 5",
+        tag: "Box de 4",
         available: true
     },
     {
@@ -64,7 +19,7 @@ const PRODUCTS = [
         description: "Le soleil dans un cookie : de tendres morceaux d’ananas qui apportent une explosion de fraîcheur et de douceur.",
         price: 3500,
         image: "images/Tropical.jpeg",
-        tag: "Box de 5",
+        tag: "Box de 4",
         available: true
     },
     {
@@ -73,7 +28,7 @@ const PRODUCTS = [
         description: "Un mariage raffiné de chocolat blanc et d’une touche florale de bissap, pour une douceur aussi élégante qu’originale.",
         price: 4000,
         image: "images/Bloom.jpeg",
-        tag: "Box de 5",
+        tag: "Box de 4",
         available: true
     },
     {
@@ -82,7 +37,7 @@ const PRODUCTS = [
         description: "Une escapade au soleil et sous les cocotiers avec une pâte fondante, de la noix de coco et de généreux morceaux de chocolat blanc.",
         price: 4500,
         image: "images/coconut.jpeg",
-        tag: "Box de 5",
+        tag: "Box de 4",
         available: true
     },
     {
@@ -203,7 +158,6 @@ function renderProducts() {
     productsGrid.innerHTML = "";
     
     PRODUCTS.forEach(product => {
-        if (product.id === "boxe-decouverte") return;
 
         const card = document.createElement("div");
         card.className = "product-card";
@@ -258,7 +212,7 @@ function renderCart() {
                     <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 5a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm-4 3a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm6 1a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm-5 5a1 1 0 1 1-1-1 1 1 0 0 1 1 1zm5-1a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"/></svg>
                 </span>
                 <p>Votre panier est vide...</p>
-                <p>Sélectionnez de délicieuses box de 5 cookies !</p>
+                <p>Sélectionnez de délicieuses box de 4 cookies !</p>
             </div>
         `;
         cartSubtotalEl.textContent = "0 FCFA";
@@ -288,7 +242,7 @@ function renderCart() {
             <div class="cart-item-info">
                 <div>
                     <h4>${item.product.name}</h4>
-                    <span style="font-size: 0.8rem; color: #7b624b; font-weight: 600; display: block; margin-bottom: 2px;">${item.product.tag || 'Box de 5'}</span>
+                    <span style="font-size: 0.8rem; color: #7b624b; font-weight: 600; display: block; margin-bottom: 2px;">${item.product.tag || 'Box de 4'}</span>
                     <span class="cart-item-price">${formatPrice(item.product.price)}</span>
                 </div>
                 <div class="cart-item-qty-row">
@@ -524,7 +478,7 @@ function setupEventListeners() {
         cart.forEach((item, index) => {
             const itemPriceSum = item.product.price * item.quantity;
             subtotal += itemPriceSum;
-            itemsListText += `${index + 1}. ${item.product.name} (${item.product.tag || 'Box de 5'}) x ${item.quantity} : ${formatPrice(itemPriceSum)}\n`;
+            itemsListText += `${index + 1}. ${item.product.name} (${item.product.tag || 'Box de 4'}) x ${item.quantity} : ${formatPrice(itemPriceSum)}\n`;
         });
         
         let shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
@@ -603,7 +557,7 @@ function renderCheckoutSummary() {
         itemEl.innerHTML = `
             <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-weight: 700; color: var(--color-text);">${item.product.name}</span> 
-                <span style="font-size: 0.75rem; background: var(--color-secondary); color: var(--color-text); border: 2px solid var(--border-color); padding: 1px 6px; border-radius: 999px; font-weight: 700; box-shadow: 1px 1px 0 var(--border-color); white-space: nowrap;">${item.product.tag || 'Box de 5'}</span>
+                <span style="font-size: 0.75rem; background: var(--color-secondary); color: var(--color-text); border: 2px solid var(--border-color); padding: 1px 6px; border-radius: 999px; font-weight: 700; box-shadow: 1px 1px 0 var(--border-color); white-space: nowrap;">${item.product.tag || 'Box de 4'}</span>
             </div>
             <div style="flex-shrink:0;">
                 <span style="color: #666; font-size: 0.85rem;">x ${item.quantity}</span>
