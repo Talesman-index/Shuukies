@@ -5,48 +5,48 @@
 // Products Database (Box of 4 packaging, prices in FCFA)
 const PRODUCTS = [
     {
+        id: "chocolat-chunks",
+        name: "Shuukies Chocolat Chunks",
+        description: "De généreux chunks de chocolat noir pour un cœur fondant irrésistible.",
+        price: 3500,
+        image: "images/cookie_chocolat_chunks.jpeg",
+        tag: "Box de 4",
+        available: true
+    },
+    {
+        id: "cerelac-chocolat-blanc",
+        name: "Shuukies Cérélac Chocolat Blanc",
+        description: "Le goût réconfortant du Cérélac chocolat blanc associé à la douceur du chocolat blanc.",
+        price: 4000,
+        image: "images/cookie_cerelac_blanc.jpeg",
+        tag: "Box de 4",
+        available: true
+    },
+    {
         id: "mango-addict",
         name: "Shuukies Mango Addict",
-        description: "L'intensité de la mangue à chaque bouchée : une pâte moelleuse, des éclats de mangue séchée, des morceaux de mangue confites et un coulis de mangue.",
-        price: 4000,
-        image: "images/mango.jpeg",
-        tag: "Box de 4",
-        available: true
-    },
-    {
-        id: "tropical-bliss",
-        name: "Shuukies Tropical Bliss",
-        description: "Le soleil dans un cookie : de tendres morceaux d’ananas qui apportent une explosion de fraîcheur et de douceur.",
-        price: 3500,
-        image: "images/Tropical.jpeg",
-        tag: "Box de 4",
-        available: true
-    },
-    {
-        id: "bloom",
-        name: "Shuukies Bloom",
-        description: "Un mariage raffiné de chocolat blanc et d’une touche florale de bissap, pour une douceur aussi élégante qu’originale.",
-        price: 4000,
-        image: "images/Bloom.jpeg",
-        tag: "Box de 4",
-        available: true
-    },
-    {
-        id: "coconut-dream",
-        name: "Shuukies Coconut Dream",
-        description: "Une escapade au soleil et sous les cocotiers avec une pâte fondante, de la noix de coco et de généreux morceaux de chocolat blanc.",
+        description: "Pâte à cookie Mangue – Coulis de mangue gourmand.",
         price: 4500,
-        image: "images/coconut.jpeg",
+        image: "images/cookie_mango_addict.jpeg",
         tag: "Box de 4",
         available: true
     },
     {
-        id: "summer-box",
-        name: "Shuukies Summer Box",
-        description: "Le meilleur des vacances réuni dans une seule box : Mango Addict, Coconut Dream, Bloom et Tropical Bliss. Quatre saveurs, une expérience gourmande à partager... ou à savourer seul.",
-        price: 4000,
-        image: "images/Summer.jpeg",
+        id: "double-chocolat",
+        name: "Shuukies Double Chocolat",
+        description: "Un cookie intense au cacao, avec des morceaux de chocolat noir fondants.",
+        price: 4500,
+        image: "images/cookie_double_chocolat.jpeg",
         tag: "Box de 4",
+        available: true
+    },
+    {
+        id: "box-decouverte",
+        name: "Shuukies Box Découverte",
+        description: "L'assortiment parfait pour découvrir nos 4 créations du mois : 1 Chocolat Chunks, 1 Cérélac Chocolat Blanc, 1 Mango Addict et 1 Double Chocolat.",
+        price: 4000,
+        image: "images/box-du-mois.jpeg",
+        tag: "Box de 4 (Mixte)",
         available: true
     }
 ];
@@ -117,7 +117,18 @@ function loadCartFromLocalStorage() {
     try {
         const savedCart = localStorage.getItem("shuukies_cart");
         if (savedCart) {
-            cart = JSON.parse(savedCart);
+            const rawCart = JSON.parse(savedCart);
+            // Reconcile with active products of the month
+            cart = rawCart
+                .map(item => {
+                    const currentProduct = PRODUCTS.find(p => p.id === (item.product ? item.product.id : item.id));
+                    if (!currentProduct) return null;
+                    return {
+                        product: currentProduct,
+                        quantity: item.quantity || 1
+                    };
+                })
+                .filter(Boolean);
         }
     } catch (e) {
         console.error("Impossible de charger le panier :", e);
