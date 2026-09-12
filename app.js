@@ -39,15 +39,6 @@ const PRODUCTS = [
         image: "images/cookie_double_chocolat.jpeg",
         tag: "Box de 4",
         available: true
-    },
-    {
-        id: "box-decouverte",
-        name: "Shuukies Box Découverte",
-        description: "L'assortiment parfait pour découvrir nos 4 créations du mois : 1 Chocolat Chunks, 1 Cérélac Chocolat Blanc, 1 Mango Addict et 1 Double Chocolat.",
-        price: 4000,
-        image: "images/box-du-mois.jpeg",
-        tag: "Box de 4 (Mixte)",
-        available: true
     }
 ];
 
@@ -419,18 +410,6 @@ function setupEventListeners() {
         productsGrid.addEventListener("click", (e) => {
             if (e.target.classList.contains("add-to-cart-btn")) {
                 const id = e.target.getAttribute("data-id");
-                addToCart(id);
-            }
-        });
-    }
-
-    // Add to cart from discovery section
-    const discoverySection = document.getElementById("decouverte");
-    if (discoverySection) {
-        discoverySection.addEventListener("click", (e) => {
-            const btn = e.target.closest(".add-to-cart-btn");
-            if (btn) {
-                const id = btn.getAttribute("data-id");
                 addToCart(id);
             }
         });
