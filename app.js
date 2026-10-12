@@ -23,11 +23,11 @@ const PRODUCTS = [
         available: true
     },
     {
-        id: "mango-addict",
-        name: "Shuukies Mango Addict",
-        description: "Pâte à cookie Mangue – Coulis de mangue gourmand.",
-        price: 4500,
-        image: "images/cookie_mango_addict.jpeg",
+        id: "banana-bread-cookie",
+        name: "Shuukies Banana Bread Cookie",
+        description: "Le goût authentique du banana bread réinventé en cookie, avec des morceaux de banane et de chocolat.",
+        price: 3700,
+        image: "images/cookie_banana_bread.jpeg",
         tag: "Box de 4",
         available: true
     },
