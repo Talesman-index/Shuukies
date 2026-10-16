@@ -1,0 +1,13 @@
+{
+  "name": "shuukies",
+  "version": "1.0.0",
+  "description": "Shuukies Cotonou - WhatsApp E-Commerce",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
