@@ -39,6 +39,15 @@ const PRODUCTS = [
         image: "images/cookie_double_chocolat.jpeg",
         tag: "Box de 4",
         available: true
+    },
+    {
+        id: "cornflakes-cookie",
+        name: "Shuukies Cornflakes Cookie",
+        description: "Des cornflakes caramélisées et du chocolat noir.",
+        price: 3700,
+        image: "images/cookie_cornflakes.jpeg",
+        tag: "Box de 4",
+        available: true
     }
 ];
 
