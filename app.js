@@ -48,6 +48,15 @@ const PRODUCTS = [
         image: "images/cookie_cornflakes.jpeg",
         tag: "Box de 4",
         available: true
+    },
+    {
+        id: "citron",
+        name: "Shuukies Citron",
+        description: "Une pâte parfumée au zeste de citron et un cœur fondant à la crème de citron acidulée.",
+        price: 3000,
+        image: "images/cookie_citron.jpeg",
+        tag: "Box de 4",
+        available: true
     }
 ];
 
